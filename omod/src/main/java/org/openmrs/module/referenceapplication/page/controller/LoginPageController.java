@@ -17,7 +17,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Location;
+import org.openmrs.LocationAttribute;
+import org.openmrs.LocationAttributeType;
+import org.openmrs.Person;
+import org.openmrs.PersonAttribute;
+import org.openmrs.User;
 import org.openmrs.api.LocationService;
+import org.openmrs.api.PersonService;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.context.ContextAuthenticationException;
 import org.openmrs.module.appframework.service.AppFrameworkService;
@@ -44,7 +50,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import org.openmrs.api.AdministrationService;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Locale;
 
 import static org.openmrs.module.referenceapplication.ReferenceApplicationWebConstants.COOKIE_NAME_LAST_SESSION_LOCATION;
@@ -89,8 +97,14 @@ public class LoginPageController {
 			  @SpringBean("adminService") AdministrationService administrationService) {
 
 		String redirectUrl = getRedirectUrl(pageRequest);
+		
+		
 
 		if (Context.isAuthenticated()) {
+			
+			
+			
+			
 			if(StringUtils.isNotBlank(redirectUrl)){
 				return "redirect:" + getRelativeUrl(redirectUrl, pageRequest);
 			}
@@ -214,12 +228,44 @@ public class LoginPageController {
 		String redirectUrl = pageRequest.getRequest().getParameter(REQUEST_PARAMETER_NAME_REDIRECT_URL);
 		redirectUrl = getRelativeUrl(redirectUrl, pageRequest);
 		Location sessionLocation = null;
+		
+		User user = Context.getAuthenticatedUser();
+		
+		PersonService ps = Context.getPersonService();
+		Person person = ps.getPerson(user.getId());
+		PersonAttribute enterprisePersonAttribute =  person.getAttribute(11);
+		String enterpriseIdGuid = enterprisePersonAttribute.getValue();
+		
+		LocationService ls = Context.getLocationService();
+		LocationAttributeType lat = ls.getLocationAttributeType(1);
+		
+		List<Location>locations = ls.getAllLocations(false);
+		
+		Location firstLocation = null;
+		
+		for(Location location: locations) {
+			Set <LocationAttribute> locationAttributes = location.getAttributes();
+			
+			for(LocationAttribute locationAttribute: locationAttributes) {
+				if(locationAttribute.getValue().equals(enterpriseIdGuid)) {
+					//this is the location for the given enterprise id of the logged in user
+					firstLocation = location;
+					break;
+				}
+			}
+			if(firstLocation != null) {
+				break;
+			}
+		}
+		
+		
 		if (sessionLocationId != null) {
 			try {
 				// TODO as above, grant this privilege to Anonymous instead of using a proxy privilege
 				Context.addProxyPrivilege(VIEW_LOCATIONS);
 				Context.addProxyPrivilege(GET_LOCATIONS);
-				sessionLocation = locationService.getLocation(sessionLocationId);
+				//sessionLocation = locationService.getLocation(sessionLocationId);
+				sessionLocation = firstLocation;
 			}
 			finally {
 				Context.removeProxyPrivilege(VIEW_LOCATIONS);
