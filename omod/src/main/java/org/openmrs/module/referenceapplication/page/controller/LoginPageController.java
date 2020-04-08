@@ -13,15 +13,30 @@
  */
 package org.openmrs.module.referenceapplication.page.controller;
 
+import static org.openmrs.module.referenceapplication.ReferenceApplicationWebConstants.COOKIE_NAME_LAST_SESSION_LOCATION;
+import static org.openmrs.module.referenceapplication.ReferenceApplicationWebConstants.REQUEST_PARAMETER_NAME_REDIRECT_URL;
+import static org.openmrs.module.referenceapplication.ReferenceApplicationWebConstants.SESSION_ATTRIBUTE_REDIRECT_URL;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Location;
 import org.openmrs.LocationAttribute;
-import org.openmrs.LocationAttributeType;
 import org.openmrs.Person;
 import org.openmrs.PersonAttribute;
 import org.openmrs.User;
+import org.openmrs.api.AdministrationService;
 import org.openmrs.api.LocationService;
 import org.openmrs.api.PersonService;
 import org.openmrs.api.context.Context;
@@ -43,21 +58,6 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import java.net.MalformedURLException;
-import java.net.URL;
-import org.openmrs.api.AdministrationService;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Locale;
-
-import static org.openmrs.module.referenceapplication.ReferenceApplicationWebConstants.COOKIE_NAME_LAST_SESSION_LOCATION;
-import static org.openmrs.module.referenceapplication.ReferenceApplicationWebConstants.REQUEST_PARAMETER_NAME_REDIRECT_URL;
-import static org.openmrs.module.referenceapplication.ReferenceApplicationWebConstants.SESSION_ATTRIBUTE_REDIRECT_URL;
 
 /**
  * Spring MVC controller that takes over /login.htm and processes requests to authenticate a user
@@ -229,35 +229,7 @@ public class LoginPageController {
 		redirectUrl = getRelativeUrl(redirectUrl, pageRequest);
 		Location sessionLocation = null;
 		
-		User user = Context.getAuthenticatedUser();
-		
-		PersonService ps = Context.getPersonService();
-		Person person = ps.getPerson(user.getId());
-		PersonAttribute enterprisePersonAttribute =  person.getAttribute(11);
-		String enterpriseIdGuid = enterprisePersonAttribute.getValue();
-		
-		LocationService ls = Context.getLocationService();
-		LocationAttributeType lat = ls.getLocationAttributeType(1);
-		
-		List<Location>locations = ls.getAllLocations(false);
-		
 		Location firstLocation = null;
-		
-		for(Location location: locations) {
-			Set <LocationAttribute> locationAttributes = location.getAttributes();
-			
-			for(LocationAttribute locationAttribute: locationAttributes) {
-				if(locationAttribute.getValue().equals(enterpriseIdGuid)) {
-					//this is the location for the given enterprise id of the logged in user
-					firstLocation = location;
-					break;
-				}
-			}
-			if(firstLocation != null) {
-				break;
-			}
-		}
-		
 		
 		if (sessionLocationId != null) {
 			try {
@@ -275,6 +247,38 @@ public class LoginPageController {
 
 		try {
 			Context.authenticate(username, password);
+			
+			User user = Context.getAuthenticatedUser();
+			
+			PersonService ps = Context.getPersonService();
+			Person person = ps.getPerson(user.getId());
+			PersonAttribute enterprisePersonAttribute = person.getAttribute("Enterprise");
+			String enterpriseIdGuid = enterprisePersonAttribute.getValue();
+			
+			LocationService ls = Context.getLocationService();
+			ls.getLocationAttributeType(1);
+			
+			List<Location> locations = ls.getAllLocations(false);
+			
+
+			
+			for (Location location : locations) {
+				Set<LocationAttribute> locationAttributes = location.getAttributes();
+				
+				for (LocationAttribute locationAttribute : locationAttributes) {
+					if (locationAttribute.getValueReference().equals(enterpriseIdGuid)) {
+						//this is the location for the given enterprise id of the logged in user
+						firstLocation = location;
+						break;
+					}
+				}
+				if (firstLocation != null) {
+					sessionLocation = firstLocation;
+					break;
+				}
+				
+			}
+			
 			String locationUserPropertyName = administrationService.getGlobalProperty(ReferenceApplicationConstants.LOCATION_USER_PROPERTY_NAME);
 			if (StringUtils.isNotBlank(locationUserPropertyName)) {
 				if (Context.isAuthenticated() && Context.getUserContext().getAuthenticatedUser() != null) {
