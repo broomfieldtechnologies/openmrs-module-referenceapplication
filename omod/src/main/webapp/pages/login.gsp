@@ -135,25 +135,11 @@ ${ ui.includeFragment("referenceapplication", "infoAndErrorMessages") }
                     </label>
                     <input id="password" type="password" name="password" placeholder="${ ui.message("referenceapplication.login.password.placeholder") }"/>
                 </p>
+  
+          		  <input type="hidden" id="sessionLocationInput" name="sessionLocation"
+                			value="6"/>
 
-                <% if(showSessionLocations) { %>
-                <p class="clear">
-                    <label for="sessionLocation">
-                        ${ ui.message("referenceapplication.login.sessionLocation") }: <span class="location-error" id="sessionLocationError" style="display: none">${ui.message("referenceapplication.login.error.locationRequired")}</span>
-                    </label>
-                    <ul id="sessionLocation" class="select">
-                        <% locations.sort { ui.format(it) }.each { %>
-                        <li id="${ui.encodeHtml(it.name)}" tabindex="0"  value="${it.id}">${ui.encodeHtmlContent(ui.format(it))}</li>
-                        <% } %>
-                    </ul>
-                </p>
-
-                <input type="hidden" id="sessionLocationInput" name="sessionLocation"
-                    <% if (lastSessionLocation != null) { %> value="${lastSessionLocation.id}" <% } %> />
-
-                <p></p>
-                <% } %>
-                <p>
+                 <p>
                     <input id="loginButton" class="confirm" type="submit" value="${ ui.message("referenceapplication.login.button") }"/>
                 </p>
                 <p>
