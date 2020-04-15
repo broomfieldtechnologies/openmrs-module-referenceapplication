@@ -254,7 +254,7 @@ public class LoginPageController {
 			PersonService ps = Context.getPersonService();
 			Person person = ps.getPerson(user.getId());
 			PersonAttribute enterprisePersonAttribute = person.getAttribute("Enterprise");
-			String enterpriseIdStringValue = enterprisePersonAttribute.getValue();
+			String enterpriseIdGuid = enterprisePersonAttribute.getValue();
 			
 			LocationService ls = Context.getLocationService();
 			LocationAttributeType latForEnterprise = ls.getLocationAttributeTypeByName("Enterprise");
