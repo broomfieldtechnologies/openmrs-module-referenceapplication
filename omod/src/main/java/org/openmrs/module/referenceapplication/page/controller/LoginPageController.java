@@ -33,6 +33,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Location;
 import org.openmrs.LocationAttribute;
+import org.openmrs.LocationAttributeType;
 import org.openmrs.Person;
 import org.openmrs.PersonAttribute;
 import org.openmrs.User;
@@ -253,10 +254,10 @@ public class LoginPageController {
 			PersonService ps = Context.getPersonService();
 			Person person = ps.getPerson(user.getId());
 			PersonAttribute enterprisePersonAttribute = person.getAttribute("Enterprise");
-			String enterpriseIdGuid = enterprisePersonAttribute.getValue();
+			String enterpriseIdStringValue = enterprisePersonAttribute.getValue();
 			
 			LocationService ls = Context.getLocationService();
-			ls.getLocationAttributeType(1);
+			LocationAttributeType latForEnterprise = ls.getLocationAttributeTypeByName("Enterprise");
 			
 			List<Location> locations = ls.getAllLocations(false);
 			
@@ -266,7 +267,8 @@ public class LoginPageController {
 				Set<LocationAttribute> locationAttributes = location.getAttributes();
 				
 				for (LocationAttribute locationAttribute : locationAttributes) {
-					if (locationAttribute.getValueReference().equals(enterpriseIdGuid)) {
+					if (locationAttribute.getAttributeType().equals(latForEnterprise)
+							&& locationAttribute.getValueReference().equals(enterpriseIdStringValue) ) {
 						//this is the location for the given enterprise id of the logged in user
 						firstLocation = location;
 						break;
