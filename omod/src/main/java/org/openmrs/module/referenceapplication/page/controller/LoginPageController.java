@@ -268,7 +268,7 @@ public class LoginPageController {
 				
 				for (LocationAttribute locationAttribute : locationAttributes) {
 					if (locationAttribute.getAttributeType().equals(latForEnterprise)
-							&& locationAttribute.getValueReference().equals(enterpriseIdStringValue) ) {
+							&& locationAttribute.getValueReference().equals(enterpriseIdGuid) ) {
 						//this is the location for the given enterprise id of the logged in user
 						firstLocation = location;
 						break;
