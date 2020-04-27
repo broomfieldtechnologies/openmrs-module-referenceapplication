@@ -19,7 +19,9 @@ import static org.openmrs.module.referenceapplication.ReferenceApplicationWebCon
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -28,12 +30,14 @@ import java.util.Set;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Location;
 import org.openmrs.LocationAttribute;
 import org.openmrs.LocationAttributeType;
+import org.openmrs.LocationTag;
 import org.openmrs.Person;
 import org.openmrs.PersonAttribute;
 import org.openmrs.User;
@@ -118,7 +122,8 @@ public class LoginPageController {
 		try {
 			Context.addProxyPrivilege(VIEW_LOCATIONS);
 			Context.addProxyPrivilege(GET_LOCATIONS);
-			model.addAttribute("locations", appFrameworkService.getLoginLocations());
+			//model.addAttribute("locations", appFrameworkService.getLoginLocations());
+			model.addAttribute("locations", new ArrayList<Location>());
 			lastSessionLocation = locationService.getLocation(Integer.valueOf(lastSessionLocationId));
 		}
 		catch (NumberFormatException ex) {
@@ -135,7 +140,8 @@ public class LoginPageController {
 			// if the request contains a attribute as showSessionLocations, then ignore isLocationUserPropertyAvailable
 			isLocationUserPropertyAvailable = false;
 		}
-		model.addAttribute("showSessionLocations", !isLocationUserPropertyAvailable);
+		//model.addAttribute("showSessionLocations", !isLocationUserPropertyAvailable);
+		model.addAttribute("showSessionLocations", false);
 		model.addAttribute("lastSessionLocation", lastSessionLocation);
 
 		return null;
@@ -230,129 +236,72 @@ public class LoginPageController {
 		redirectUrl = getRelativeUrl(redirectUrl, pageRequest);
 		Location sessionLocation = null;
 		
-		Location firstLocation = null;
-		
+		try {
+			// TODO as above, grant this privilege to Anonymous instead of using a proxy privilege
+			Context.addProxyPrivilege(VIEW_LOCATIONS);
+			Context.addProxyPrivilege(GET_LOCATIONS);
+		}
+		finally {
+			Context.removeProxyPrivilege(VIEW_LOCATIONS);
+			Context.removeProxyPrivilege(GET_LOCATIONS);
+		}
 		if (sessionLocationId != null) {
-			try {
-				// TODO as above, grant this privilege to Anonymous instead of using a proxy privilege
-				Context.addProxyPrivilege(VIEW_LOCATIONS);
-				Context.addProxyPrivilege(GET_LOCATIONS);
-				//sessionLocation = locationService.getLocation(sessionLocationId);
-				sessionLocation = firstLocation;
-			}
-			finally {
-				Context.removeProxyPrivilege(VIEW_LOCATIONS);
-				Context.removeProxyPrivilege(GET_LOCATIONS);
-			}
+			sessionLocation = locationService.getLocation(sessionLocationId);
 		}
 
 		try {
 			Context.authenticate(username, password);
-			
-			User user = Context.getAuthenticatedUser();
-			
-			PersonService ps = Context.getPersonService();
-			Person person = ps.getPerson(user.getId());
-			PersonAttribute enterprisePersonAttribute = person.getAttribute("Enterprise");
-			String enterpriseIdGuid = enterprisePersonAttribute.getValue();
-			
-			LocationService ls = Context.getLocationService();
-			LocationAttributeType latForEnterprise = ls.getLocationAttributeTypeByName("Enterprise");
-			
-			List<Location> locations = ls.getAllLocations(false);
-			
+			if (Context.isAuthenticated()) {
+				if (log.isDebugEnabled())
+					log.debug("User has successfully authenticated");
+				CurrentUsers.addUser(pageRequest.getRequest().getSession(), Context.getAuthenticatedUser());
 
-			
-			for (Location location : locations) {
-				Set<LocationAttribute> locationAttributes = location.getAttributes();
-				
-				for (LocationAttribute locationAttribute : locationAttributes) {
-					if (locationAttribute.getAttributeType().equals(latForEnterprise)
-							&& locationAttribute.getValueReference().equals(enterpriseIdGuid) ) {
-						//this is the location for the given enterprise id of the logged in user
-						firstLocation = location;
-						break;
-					}
-				}
-				if (firstLocation != null) {
-					sessionLocation = firstLocation;
-					break;
-				}
-				
-			}
-			
-			String locationUserPropertyName = administrationService.getGlobalProperty(ReferenceApplicationConstants.LOCATION_USER_PROPERTY_NAME);
-			if (StringUtils.isNotBlank(locationUserPropertyName)) {
-				if (Context.isAuthenticated() && Context.getUserContext().getAuthenticatedUser() != null) {
-					String locationUuid = Context.getUserContext().getAuthenticatedUser().getUserProperty(locationUserPropertyName);
-					if (StringUtils.isNotBlank(locationUuid)) {
-						sessionLocation = locationService.getLocationByUuid(locationUuid);
-					}
-					if (sessionLocation != null) {
-						sessionLocationId = sessionLocation.getLocationId();
-                    			}
-					else {
-						pageRequest.getSession().setAttribute(ReferenceApplicationWebConstants.SESSION_ATTRIBUTE_ERROR_MESSAGE,
-								ui.message("referenceapplication.login.error.locationRequired"));
-					    	// Since the user is already authenticated without location, need to logout before redirecting
-						Context.logout();
-						Map<String, Object> returnParameters = new HashMap<String, Object>();
-						returnParameters.put("showSessionLocations", true);
-						return "redirect:" + ui.pageLink(ReferenceApplicationConstants.MODULE_ID, "login", returnParameters);
-				    	}
-				}
-			}
-
-
-
-			if (sessionLocation != null && sessionLocation.hasTag(EmrApiConstants.LOCATION_TAG_SUPPORTS_LOGIN)) {
-				// Set a cookie, so next time someone logs in on this machine, we can default to that same location
-				Cookie cookie = new Cookie(COOKIE_NAME_LAST_SESSION_LOCATION, sessionLocationId.toString());
-				cookie.setHttpOnly(true);
-				pageRequest.getResponse().addCookie(cookie);
-				if (Context.isAuthenticated()) {
-					if (log.isDebugEnabled())
-						log.debug("User has successfully authenticated");
-					CurrentUsers.addUser(pageRequest.getRequest().getSession(), Context.getAuthenticatedUser());
-
-					sessionContext.setSessionLocation(sessionLocation);
-					//we set the username value to check it new or old user is trying to log in
-					cookie = new Cookie(ReferenceApplicationWebConstants.COOKIE_NAME_LAST_USER, String.valueOf(username.hashCode()));
-					cookie.setHttpOnly(true);
-					pageRequest.getResponse().addCookie(cookie);
-
-					// set the locale based on the user's default locale
-					Locale userLocale = GeneralUtils.getDefaultLocale(Context.getUserContext().getAuthenticatedUser());
-					if (userLocale != null) {
-						Context.getUserContext().setLocale(userLocale);
-						pageRequest.getResponse().setLocale(userLocale);
-						new CookieLocaleResolver().setDefaultLocale(userLocale);
-					}
-
-					if (StringUtils.isNotBlank(redirectUrl)) {
-						//don't redirect back to the login page on success nor an external url
-						if (isUrlWithinOpenmrs(pageRequest, redirectUrl)) {
-							if (!redirectUrl.contains("login.") && isSameUser(pageRequest, username)) {
-                                if (log.isDebugEnabled())
-                                    log.debug("Redirecting user to " + redirectUrl);
-                                return "redirect:" + redirectUrl;
-                            } else {
-                                if (log.isDebugEnabled())
-                                    log.debug("Redirect contains 'login.', redirecting to home page");
-                            }
+				if(sessionLocation == null) {
+					List<Location> userLocations = getUserLocations(locationService);
+					if(!ArrayUtils.isEmpty(userLocations.toArray())) {
+						sessionLocation = userLocations.get(0);
+						if (sessionLocation != null) {
+							sessionLocationId = sessionLocation.getLocationId();
 						}
 					}
-
-					return "redirect:" + ui.pageLink(ReferenceApplicationConstants.MODULE_ID, "home");
 				}
-			} else if (sessionLocation == null) {
-				pageRequest.getSession().setAttribute(ReferenceApplicationWebConstants.SESSION_ATTRIBUTE_ERROR_MESSAGE,
-						ui.message("referenceapplication.login.error.locationRequired"));
-			} else {
-				// the UI shouldn't allow this, but protect against it just in case
-				pageRequest.getSession().setAttribute(ReferenceApplicationWebConstants.SESSION_ATTRIBUTE_ERROR_MESSAGE,
-						ui.message("referenceapplication.login.error.invalidLocation", sessionLocation.getName()));
+				if (sessionLocation != null && sessionLocation.hasTag(EmrApiConstants.LOCATION_TAG_SUPPORTS_LOGIN)) {
+					// Set a cookie, so next time someone logs in on this machine, we can default to that same location
+					Cookie cookie = new Cookie(COOKIE_NAME_LAST_SESSION_LOCATION, sessionLocationId.toString());
+					cookie.setHttpOnly(true);
+					pageRequest.getResponse().addCookie(cookie);
+					sessionContext.setSessionLocation(sessionLocation);
+				}
+				//we set the username value to check it new or old user is trying to log in
+				Cookie cookie = new Cookie(ReferenceApplicationWebConstants.COOKIE_NAME_LAST_USER, String.valueOf(username.hashCode()));
+				cookie.setHttpOnly(true);
+				pageRequest.getResponse().addCookie(cookie);
+
+				// set the locale based on the user's default locale
+				Locale userLocale = GeneralUtils.getDefaultLocale(Context.getUserContext().getAuthenticatedUser());
+				if (userLocale != null) {
+					Context.getUserContext().setLocale(userLocale);
+					pageRequest.getResponse().setLocale(userLocale);
+					new CookieLocaleResolver().setDefaultLocale(userLocale);
+				}
+
+				if (StringUtils.isNotBlank(redirectUrl)) {
+					//don't redirect back to the login page on success nor an external url
+					if (isUrlWithinOpenmrs(pageRequest, redirectUrl)) {
+						if (!redirectUrl.contains("login.") && isSameUser(pageRequest, username)) {
+							if (log.isDebugEnabled())
+								log.debug("Redirecting user to " + redirectUrl);
+							return "redirect:" + redirectUrl;
+						} else {
+							if (log.isDebugEnabled())
+								log.debug("Redirect contains 'login.', redirecting to home page");
+						}
+					}
+				}
+
+				return "redirect:" + ui.pageLink(ReferenceApplicationConstants.MODULE_ID, "home");
 			}
+
 		}
 		catch (ContextAuthenticationException ex) {
 			if (log.isDebugEnabled())
@@ -411,5 +360,40 @@ public class LoginPageController {
         }
 
         return null;
+	}
+
+	private List<Location> getUserLocations( LocationService locationService) {
+		List<Location> locations = new ArrayList();
+		String enterpriseId = getDefaultEnterprise();
+		if(StringUtils.isNotBlank(enterpriseId)) {
+			//get all login locations
+			LocationTag supportsLogin = locationService.getLocationTagByName(EmrApiConstants.LOCATION_TAG_SUPPORTS_LOGIN);
+			Iterator locIterator =  locationService.getLocationsByTag(supportsLogin).iterator();
+			while(locIterator.hasNext()) {
+				Location loc = (Location)locIterator.next();
+				Iterator locAttrIterator = loc.getActiveAttributes().iterator();
+				//get location with matching enterprise attribute value
+				while (locAttrIterator.hasNext()) {
+					LocationAttribute locationAttribute = (LocationAttribute) locAttrIterator.next();
+					if(StringUtils.equalsIgnoreCase("Enterprise", locationAttribute.getAttributeType().getName())) {
+						String locEnterpriseAttrVal = locationAttribute.getValue().toString();
+						if(StringUtils.equalsIgnoreCase(enterpriseId, locEnterpriseAttrVal)) {
+							locations.add(loc);
+						}
+					}
+				}
+			}
+		}
+		return locations;
+	}
+
+	private String getDefaultEnterprise() {
+		String enterpriseValue = "";
+		if( Context.getAuthenticatedUser() != null
+				&& Context.getAuthenticatedUser().getPerson() != null
+				&& Context.getAuthenticatedUser().getPerson().getAttribute("Enterprise") != null) {
+			enterpriseValue = Context.getAuthenticatedUser().getPerson().getAttribute("Enterprise").getValue();
+		}
+		return enterpriseValue;
 	}
 }
