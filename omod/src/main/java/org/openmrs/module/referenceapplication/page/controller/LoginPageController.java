@@ -236,17 +236,18 @@ public class LoginPageController {
 		redirectUrl = getRelativeUrl(redirectUrl, pageRequest);
 		Location sessionLocation = null;
 		
-		try {
-			// TODO as above, grant this privilege to Anonymous instead of using a proxy privilege
-			Context.addProxyPrivilege(VIEW_LOCATIONS);
-			Context.addProxyPrivilege(GET_LOCATIONS);
-		}
-		finally {
-			Context.removeProxyPrivilege(VIEW_LOCATIONS);
-			Context.removeProxyPrivilege(GET_LOCATIONS);
-		}
 		if (sessionLocationId != null) {
-			sessionLocation = locationService.getLocation(sessionLocationId);
+			try {
+				// TODO as above, grant this privilege to Anonymous instead of using a proxy privilege
+				Context.addProxyPrivilege(VIEW_LOCATIONS);
+				Context.addProxyPrivilege(GET_LOCATIONS);
+				sessionLocation = locationService.getLocation(sessionLocationId);
+			}
+			finally {
+				Context.removeProxyPrivilege(VIEW_LOCATIONS);
+				Context.removeProxyPrivilege(GET_LOCATIONS);
+			}
+			
 		}
 
 		try {
