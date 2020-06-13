@@ -1,0 +1,3 @@
+insert into 'enterprise' (`enterprise_id`, `name`,  `description`,  `address1`,  `address2`, `city_village`,  `state_province`,
+  `postal_code`,  `country`,  `latitude`,  `longitude`, `web`, `email`,  `phone`,  `fax`,  `contact_person`, `creator`, `date_created`, `retired`,  `retired_by`, `date_retired`,  `retired_reason`,  `uuid`,  `changed_by`, `date_changed`, `voided`,`voided_by`,`date_voided`,`void_reason`)
+values (1,	'ABC Enterprise',	'ABC Enterprise',	'nungambakkam',	'chennai',	'chennai',	'tamil nadu',	'600001',	'india',	NULL,	NULL,	'www.ahosp.in',	NULL,	NULL,	NULL,	NULL,	1,	'2020-04-01 00:00:00',	0,	NULL,	NULL,	NULL,	'139e7216-13ad-4d6b-951d-2e5fe2d1316c',	NULL,	NULL,	0,	NULL,	NULL,	NULL);
