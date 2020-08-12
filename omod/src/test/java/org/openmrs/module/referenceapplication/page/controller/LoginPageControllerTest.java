@@ -59,6 +59,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
+import org.openmrs.api.context.AuthenticationScheme;
 
 @PrepareForTest({ Context.class, LocationUtility.class })
 @RunWith(PowerMockRunner.class)
@@ -120,7 +121,7 @@ public class LoginPageControllerTest {
 		Location location = Mockito.spy(new Location(SESSION_LOCATION_ID));
 		when(location.hasTag(Mockito.eq(EmrApiConstants.LOCATION_TAG_SUPPORTS_LOGIN))).thenReturn(locationHasLoginTag);
 		when(locationService.getLocation(Mockito.eq(SESSION_LOCATION_ID))).thenReturn(location);
-		UserContext userContext = Mockito.spy(new UserContext());
+		UserContext userContext = Mockito.spy(UserContext.class);
 		spy(Context.class);
 		stub(method(Context.class, "getUserContext")).toReturn(userContext);
 		doNothing().when(Context.class, "addProxyPrivilege", VIEW_LOCATIONS);
