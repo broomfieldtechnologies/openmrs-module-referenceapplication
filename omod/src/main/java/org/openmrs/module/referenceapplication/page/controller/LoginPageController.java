@@ -20,12 +20,9 @@ import static org.openmrs.module.referenceapplication.ReferenceApplicationWebCon
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -36,14 +33,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Location;
 import org.openmrs.LocationAttribute;
-import org.openmrs.LocationAttributeType;
 import org.openmrs.LocationTag;
-import org.openmrs.Person;
-import org.openmrs.PersonAttribute;
-import org.openmrs.User;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.LocationService;
-import org.openmrs.api.PersonService;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.context.ContextAuthenticationException;
 import org.openmrs.module.appframework.service.AppFrameworkService;
@@ -258,7 +250,9 @@ public class LoginPageController {
 				CurrentUsers.addUser(pageRequest.getRequest().getSession(), Context.getAuthenticatedUser());
 
 				if(sessionLocation == null) {
-					List<Location> userLocations = getUserLocations(locationService);
+					LocationTag supportsLogin = locationService.getLocationTagByName(EmrApiConstants.LOCATION_TAG_SUPPORTS_LOGIN);
+					List<Location> userLocations = locationService.getLocationsByTagAndEnterpriseId(
+							supportsLogin, locationService.getEnterpriseForLoggedinUser());
 					if(!ArrayUtils.isEmpty(userLocations.toArray())) {
 						sessionLocation = userLocations.get(0);
 						if (sessionLocation != null) {
@@ -361,40 +355,5 @@ public class LoginPageController {
         }
 
         return null;
-	}
-
-	private List<Location> getUserLocations( LocationService locationService) {
-		List<Location> locations = new ArrayList();
-		String enterpriseId = getDefaultEnterprise();
-		if(StringUtils.isNotBlank(enterpriseId)) {
-			//get all login locations
-			LocationTag supportsLogin = locationService.getLocationTagByName(EmrApiConstants.LOCATION_TAG_SUPPORTS_LOGIN);
-			Iterator locIterator =  locationService.getLocationsByTag(supportsLogin).iterator();
-			while(locIterator.hasNext()) {
-				Location loc = (Location)locIterator.next();
-				Iterator locAttrIterator = loc.getActiveAttributes().iterator();
-				//get location with matching enterprise attribute value
-				while (locAttrIterator.hasNext()) {
-					LocationAttribute locationAttribute = (LocationAttribute) locAttrIterator.next();
-					if(StringUtils.equalsIgnoreCase("Enterprise", locationAttribute.getAttributeType().getName())) {
-						String locEnterpriseAttrVal = locationAttribute.getValue().toString();
-						if(StringUtils.equalsIgnoreCase(enterpriseId, locEnterpriseAttrVal)) {
-							locations.add(loc);
-						}
-					}
-				}
-			}
-		}
-		return locations;
-	}
-
-	private String getDefaultEnterprise() {
-		String enterpriseValue = "";
-		if( Context.getAuthenticatedUser() != null
-				&& Context.getAuthenticatedUser().getPerson() != null
-				&& Context.getAuthenticatedUser().getPerson().getAttribute("Enterprise") != null) {
-			enterpriseValue = Context.getAuthenticatedUser().getPerson().getAttribute("Enterprise").getValue();
-		}
-		return enterpriseValue;
 	}
 }
