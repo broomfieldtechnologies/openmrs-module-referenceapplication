@@ -63,6 +63,7 @@
 		<uicommonsVersion>2.1</uicommonsVersion>
 		<legacyuiVersion>1.2.3</legacyuiVersion>
 		<metadatamappingVersion>1.2.1</metadatamappingVersion>
+		<commonlabtestVersion>1.4.1</commonlabtestVersion>
 	</properties>
 
 	<dependencyManagement>
@@ -337,6 +338,12 @@
 				<scope>provided</scope>
 				<type>zip</type>
 			</dependency>
+			<dependency>
+				<groupId>org.openmrs.module</groupId>
+				<artifactId>commonlabtest-omod</artifactId>
+				<version>${commonlabtestVersion}</version>
+				<scope>provided</scope>
+			</dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -505,7 +512,7 @@
             <artifactId>appointmentscheduling-api</artifactId>
             <scope>test</scope>
         </dependency>
-
+		
 
     </dependencies>
 

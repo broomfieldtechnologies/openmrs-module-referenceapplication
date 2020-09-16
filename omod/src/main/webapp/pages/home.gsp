@@ -30,5 +30,6 @@
             </a>
         <% } %>
     </div>
-
+    ${ ui.includeFragment("commonlabtest", "helloUser") }
+    
 </div>

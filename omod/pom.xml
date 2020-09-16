@@ -5,7 +5,7 @@
 		<groupId>org.openmrs.module</groupId>
 		<artifactId>referenceapplication</artifactId>
 		<version>2.9.0</version>
-	</parent>
+	</parent> 
 
 	<artifactId>referenceapplication-omod</artifactId>
 	<packaging>jar</packaging>
@@ -101,6 +101,11 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>commonlabtest-omod</artifactId>
 			<scope>provided</scope>
 		</dependency>
 			
