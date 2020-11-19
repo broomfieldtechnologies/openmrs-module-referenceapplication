@@ -1,3 +1,5 @@
+<html>
+<head>
 <%
     ui.decorateWith("appui", "standardEmrPage", [ title: ui.message("referenceapplication.home.title") ])
 
@@ -5,6 +7,36 @@
         "${ extension.id.replace(".", "-") }-${ extension.id.replace(".", "-") }-extension"
     }
 %>
+<style>
+dialog{
+color:blue;
+text-align:center;
+background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 60%;
+  height:40%;
+}
+</style>
+
+<script>
+
+function myFunction(){
+document.getElementById("mydialog").showModal();
+}
+function buttonfunction(){
+document.getElementById("mydialog").close();
+}
+</script>
+</head>
+<body onload="myFunction()">
+
+<form>
+<dialog id="mydialog"><h1>this is message</h1>
+<button type="submit" value ="/addAction">Accept</button></dialog>
+</form>
+
 
 <div id="home-container">
 
@@ -32,3 +64,5 @@
     </div>
 
 </div>
+</body>
+</html>
