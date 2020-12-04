@@ -55,6 +55,7 @@
          <dependency>
             <groupId>org.openmrs.module</groupId>
             <artifactId>formentryapp-omod</artifactId>
+            <version>${formentryappVersion}</version>
          </dependency>
 
         <dependency>
