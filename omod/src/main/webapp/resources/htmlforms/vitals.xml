@@ -214,6 +214,24 @@
             </p>
         </fieldset>
 
+        <fieldset>
+            <legend>Fasting Blood Sugar</legend>
+            <h3>Fasting Blood Sugar</h3>
+
+            <p>
+                <obs conceptId="CIEL:887" id="fasting_sugar" showUnits="uicommons.units.bloodglucose" unitsCssClass="append-to-value"/>
+            </p>
+        </fieldset>
+
+        <fieldset>
+            <legend>General Random Blood Sugar</legend>
+            <h3>General Random Blood Sugar</h3>
+
+            <p>
+                <obs conceptId="CIEL:887" id="random_sugar" showUnits="uicommons.units.bloodglucose" unitsCssClass="append-to-value"/>
+            </p>
+        </fieldset>
+
         <fieldset field-separator=" / ">
             <legend><uimessage code="referenceapplication.vitals.bloodPressure.title"/></legend>
             <h3><uimessage code="referenceapplication.vitals.bloodPressure.title"/></h3>

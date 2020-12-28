@@ -152,12 +152,24 @@ ${ ui.includeFragment("referenceapplication", "infoAndErrorMessages") }
 
             </fieldset>
 
-    		<input type="hidden" name="redirectUrl" value="${redirectUrl}" />
-
-        </form>
+    		<input type="hidden" name="redirectUrl" value="${redirectUrl}" 
+    		        </form>
 
     </div>
 </div>
+    		
+<div id="iAgreePopup" class="dialog" style="display: none">
+    <div class="dialog-header">
+        <i class="icon-info-sign"></i>
+        <h3>${ ui.message("referenceapplication.login.iAgree") }</h3>
+    </div>
+    <div class="dialog-content">
+        <p class="dialog-instructions">${ ui.message("referenceapplication.login.iAgreeInstruction") }</p>
+
+        <button class="confirm">${ ui.message("referenceapplication.okay") }</button>
+    </div>
+</div>    		 
+
 
 <div id="cannotLoginPopup" class="dialog" style="display: none">
     <div class="dialog-header">
