@@ -36,10 +36,21 @@
                                 }
                             ]
                         },
-                        {
+ 						{
                             "legend": "registrationapp.patient.phone.label",
                             "id": "phoneNumberLabel",
-                            "fields": [
+                            "fields": [  
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.mobilephone.question",
+                                    "formFieldName": "mobilePhoneNumber",
+                                    "uuid": "ec009755-d3b9-4605-9b3f-eb8efce34eed",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    },
+                                    "cssClasses": ["phone"]
+                                },
                                 {
                                     "type": "personAttribute",
                                     "label": "registrationapp.patient.phone.question",
@@ -48,13 +59,73 @@
                                     "widget": {
                                         "providerName": "uicommons",
                                         "fragmentId": "field/text"
-                                    },
-                                    "cssClasses": ["phone"]
+                                    }
+                                },
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.alternatephone.question",
+                                    "formFieldName": "alternatePhoneNumber",
+                                    "uuid": "e0a26f29-4e0d-421c-92f2-653cc25438f8",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
                                 }
                             ]
                         }
                     ]
                 },
+                {
+                    "id": "personalInfo",
+                    "label": "registrationapp.patient.personalInfo.label",
+                    "questions": [
+                        {
+                            "legend": "registrationapp.patient.religion.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.religion.question",
+                                    "formFieldName": "religion",
+                                    "uuid": "979ea1cd-7fc3-4cb1-9786-5052f1f26580",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.socialstatus.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.socialstatus.question",
+                                    "formFieldName": "socialstatus",
+                                    "uuid": "1a7d20e7-be7e-4520-b117-f8ead45d5a6f",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        }, 
+                        {
+                            "legend": "registrationapp.patient.occupation.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.occupation.question",
+                                    "formFieldName": "occupation",
+                                    "uuid": "94ca7df4-f4bf-4248-8d43-598d48361fb2",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        } 
+                    ]
+                },              
                 {
                     "id": "relationships-info",
                     "label": "registrationapp.person.relationship",
