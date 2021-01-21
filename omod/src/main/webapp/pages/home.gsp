@@ -7,18 +7,7 @@
         "${ extension.id.replace(".", "-") }-${ extension.id.replace(".", "-") }-extension"
     }
 %>
-<style>
-dialog{
-color:blue;
-text-align:center;
-background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 60%;
-  height:40%;
-}
-</style>
+
 
 
 </head>
