@@ -12,7 +12,11 @@
  * Copyright (C) OpenMRS, LLC.  All Rights Reserved.
  */
 package org.openmrs.module.referenceapplication.page.controller;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ibm.icu.text.SimpleDateFormat;
+
+import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.context.Context;
@@ -34,6 +38,8 @@ import java.util.Date;
 import org.openmrs.api.impl.UserAcknowledgeServiceImpl;
 import org.openmrs.api.UserAcknowledgeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import java.util.TimeZone;
+import java.lang.Integer;
 
 /**
  * Spring MVC controller that takes over /index.htm and processes requests to show the home page so
@@ -44,7 +50,7 @@ public class HomePageController {
 	
 	protected final Log log = LogFactory.getLog(getClass());
 	
-	UserAcknowledgeService usrser;
+	UserAcknowledgeService userAcknowledgeService;
 	
 	@RequestMapping("/index.htm")
 	public String overrideHomepage() {
@@ -54,42 +60,49 @@ public class HomePageController {
 	}
 
     /**
-     * @should limit which apps are shown on the homepage based on locati
+     * @should limit which apps are shown on the homepage based on location
      */
     public Object controller(PageModel model,
                              @SpringBean("appFrameworkService") AppFrameworkService appFrameworkService,
                              UiSessionContext sessionContext) {
-
+    	
+    	
         AppContextModel contextModel = sessionContext.generateAppContextModel();
-
+       
+        //US10060
+        
+        userAcknowledgeService=Context.getUserAcknowledgeService();
+        
+        log.error("contextauthuser:"+Context.getAuthenticatedUser());
+        
+        Date currentDate = new Date();
+        long interval=0;
+        Date lastLoginDate=null;
+        boolean checkExsistFlag=false;
+       
+        lastLoginDate=userAcknowledgeService.checkLastLogin(Context.getAuthUserId());
+        	
+        		if(lastLoginDate!=null) {
+        
+        				interval=(currentDate.getTime()-lastLoginDate.getTime())/86400000;
+        						if(interval==0) {
+        								checkExsistFlag=userAcknowledgeService.checkExsisting(Context.getAuthUserId());	
+        							}
+        				log.debug("diffe between two dates:"+interval);
+       
+        				}
+      
+        model.addAttribute("lastlogintime",interval);
+        model.addAttribute("checkExsist",checkExsistFlag);
+        //end of US10060
+        
         model.addAttribute("extensions",
                 appFrameworkService.getExtensionsForCurrentUser(ReferenceApplicationConstants.HOME_PAGE_EXTENSION_POINT_ID, contextModel));
         model.addAttribute("authenticatedUser", Context.getAuthenticatedUser());
-       
-        Date d1=new Date();
-        UserAcknowledge u = new UserAcknowledge();
-     
-        Integer x=0;
-        if(Context.getAuthUserId()!=0) {
-      x=Context.getAuthUserId();
-        
-        }
-        u.setUserId(x);
-        u.setLoginDate(d1);
-        usrser=Context.getUserAcknowledgeService();
-        
-        
-        usrser.saveUserAcknowledge(u);
-       
+      
         return null;
     }
-    
-    @RequestMapping("/addAction")
-    public void acceptUser() {
-    	log.error("reshma ack");
-    }
-    
-    
-    
+ 
+
     
 }
