@@ -20,20 +20,7 @@ background-color: #fefefe;
 }
 </style>
 
-<script>
 
-function show(){
-
-window.alert("hello");
-}
-
-function myFunction(){
-document.getElementById("mydialog").showModal();
-}
-function buttonfunction(){
-document.getElementById("mydialog").close();
-}
-</script>
 </head>
 <body>
 
@@ -50,8 +37,6 @@ document.getElementById("mydialog").close();
         <h4>helloresh</h4>
         <% if (!checkExsist) { %>
           ${ui.includeFragment("appui","acceptUser")}
-       <% } else { %>
-       <h4>helloelseresh</h4>
        <% } %>
        <% } %>
   
