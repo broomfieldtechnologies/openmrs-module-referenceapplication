@@ -22,6 +22,11 @@ background-color: #fefefe;
 
 <script>
 
+function show(){
+
+window.alert("hello");
+}
+
 function myFunction(){
 document.getElementById("mydialog").showModal();
 }
@@ -30,18 +35,26 @@ document.getElementById("mydialog").close();
 }
 </script>
 </head>
-<body onload="myFunction()">
+<body>
 
-<form>
-<dialog id="mydialog"><h1>this is message</h1>
-<button type="submit" value ="/addAction">Accept</button></dialog>
-</form>
 
 
 <div id="home-container">
 
     ${ ui.includeFragment("coreapps", "administrativenotification/notifications") }
-
+   
+    
+    <h4>${lastlogintime}</h4>
+  
+  <% if ((lastlogintime>30)||(lastlogintime==0)){ %>
+        <h4>helloresh</h4>
+        <% if (!checkExsist) { %>
+          ${ui.includeFragment("appui","acceptUser")}
+       <% } else { %>
+       <h4>helloelseresh</h4>
+       <% } %>
+       <% } %>
+  
     <% if (authenticatedUser) { %>
         <h4>
             ${ ui.encodeHtmlContent(ui.message("referenceapplication.home.currentUser", ui.format(authenticatedUser), ui.format(sessionContext.sessionLocation))) }
