@@ -55,11 +55,13 @@
          <dependency>
             <groupId>org.openmrs.module</groupId>
             <artifactId>formentryapp-omod</artifactId>
+            <version>${formentryappVersion}</version>
          </dependency>
 
         <dependency>
             <groupId>org.openmrs.module</groupId>
             <artifactId>webservices.rest-omod-common</artifactId>
+            <version>${webservicesRestModuleVersion}</version>
         </dependency>
 
         <dependency>

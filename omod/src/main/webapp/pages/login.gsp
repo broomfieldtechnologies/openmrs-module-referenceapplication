@@ -1,6 +1,12 @@
 <%
     ui.includeFragment("appui", "standardEmrIncludes")
     ui.includeCss("referenceapplication", "login.css")
+    def newHospitalRequestSubject = context.getAdministrationService().getGlobalProperty("login.newhospitalrequest.subject")
+    def newHospitalRequestEmail = context.getAdministrationService().getGlobalProperty("login.newhospitalrequest.email")    
+    def newHospitalRequestBody = context.getAdministrationService().getGlobalProperty("login.newhospitalrequest.body")    
+    def newForgotPasswordSubject = context.getAdministrationService().getGlobalProperty("login.forgotpassword.subject")
+    def newForgotPasswordEmail = context.getAdministrationService().getGlobalProperty("login.forgotpassword.email")    
+    def newForgotPasswordBody = context.getAdministrationService().getGlobalProperty("login.forgotpassword.body")    
 %>
 
 <!DOCTYPE html>
@@ -12,6 +18,7 @@
     ${ ui.resourceLinks() }
 </head>
 <body>
+
 <script type="text/javascript">
     var OPENMRS_CONTEXT_PATH = '${ ui.contextPath() }';
 </script>
@@ -112,6 +119,7 @@ ${ ui.includeFragment("referenceapplication", "infoAndErrorMessages") }
     </div>
 </header>
 
+
 <div id="body-wrapper">
     <div id="content">
         <form id="login-form" method="post" autocomplete="off">
@@ -144,21 +152,44 @@ ${ ui.includeFragment("referenceapplication", "infoAndErrorMessages") }
                     <input id="loginButton" class="confirm" type="submit" value="${ ui.message("referenceapplication.login.button") }"/>
                 </p>
                 <p>
+ <!--
                     <a id="cantLogin" href="javascript:void(0)">
+--!>
+                    <a id="cantLogin"
+                       href="mailto:${newForgotPasswordEmail}?subject=${newForgotPasswordSubject}&body=${newForgotPasswordBody}">
                         <i class="icon-question-sign small"></i>
                         ${ ui.message("referenceapplication.login.cannotLogin") }
+                    </a>
+                </p>
+                <p>
+                    <a id="newHosptialEmail" 
+                        href="mailto:${newHospitalRequestEmail}?subject=${newHospitalRequestSubject}&body=${newHospitalRequestBody}">
+                        <i class="icon-question-sign small"></i>
+                        ${ ui.message("referenceapplication.login.newHospital") }
                     </a>
                 </p>
 
             </fieldset>
 
-    		<input type="hidden" name="redirectUrl" value="${redirectUrl}" />
-
-        </form>
+    		<input type="hidden" name="redirectUrl" value="${redirectUrl}" 
+    		        </form>
 
     </div>
 </div>
+    		
+<div id="iAgreePopup" class="dialog" style="display: none">
+    <div class="dialog-header">
+        <i class="icon-info-sign"></i>
+        <h3>${ ui.message("referenceapplication.login.iAgree") }</h3>
+    </div>
+    <div class="dialog-content">
+        <p class="dialog-instructions">${ ui.message("referenceapplication.login.iAgreeInstruction") }</p>
 
+        <button class="confirm">${ ui.message("referenceapplication.okay") }</button>
+    </div>
+</div>    		 
+
+<!--
 <div id="cannotLoginPopup" class="dialog" style="display: none">
     <div class="dialog-header">
         <i class="icon-info-sign"></i>
@@ -170,6 +201,6 @@ ${ ui.includeFragment("referenceapplication", "infoAndErrorMessages") }
         <button class="confirm">${ ui.message("referenceapplication.okay") }</button>
     </div>
 </div>
-
+--!>
 </body>
 </html>
