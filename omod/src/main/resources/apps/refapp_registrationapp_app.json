@@ -72,7 +72,24 @@
                                     }
                                 }
                             ]
-                        }
+                        },
+ 						{
+                            "legend": "registrationapp.patient.emailid.label",
+                            "id": "emailIdLabel",
+                            "fields": [  
+                                {
+                                    "type": "personAttribute", 
+                                    "label": "registrationapp.patient.emailid.question",
+                                    "formFieldName": "emailId",
+                                    "uuid": "a01f0840-b3d7-4986-a41e-38deebb79303",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    },
+                                    "cssClasses": ["email"]                                    
+                                }
+                            ]
+                        }                        
                     ]
                 },
                 {
