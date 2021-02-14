@@ -1,4 +1,4 @@
-<html>
+
 <head>
 <%
     ui.decorateWith("appui", "standardEmrPage", [ title: ui.message("referenceapplication.home.title") ])
@@ -7,27 +7,15 @@
         "${ extension.id.replace(".", "-") }-${ extension.id.replace(".", "-") }-extension"
     }
 %>
-
-
-
 </head>
-<body>
-
-
-
 <div id="home-container">
 
     ${ ui.includeFragment("coreapps", "administrativenotification/notifications") }
-   
-    
-    <h4>${lastlogintime}</h4>
-  
-  <% if ((lastlogintime>30)||(lastlogintime==0)){ %>
-        <h4>helloresh</h4>
-        <% if (!checkExsist) { %>
-          ${ui.includeFragment("appui","acceptUser")}
-       <% } %>
-       <% } %>
+        <% if ((lastlogintime>30)||(lastlogintime==0)){ %>
+            <% if (!checkExsist) { %>
+                ${ui.includeFragment("appui","acceptUser")}
+            <% } %>
+        <% } %>
   
     <% if (authenticatedUser) { %>
         <h4>
@@ -51,5 +39,3 @@
     </div>
 
 </div>
-</body>
-</html>

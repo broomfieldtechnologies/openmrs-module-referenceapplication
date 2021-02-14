@@ -72,30 +72,20 @@ public class HomePageController {
         //US10060
         
         userAcknowledgeService=Context.getUserAcknowledgeService();
-        
-        log.error("contextauthuser:"+Context.getAuthenticatedUser());
-        
         Date currentDate = new Date();
         long interval=0;
         Date lastLoginDate=null;
-        boolean checkExsistFlag=false;
-       
+        boolean checkExsistFlag=false;       
         lastLoginDate=userAcknowledgeService.checkLastLogin(Context.getAuthUserId());
-        	
-        		if(lastLoginDate!=null) {
-        
-        				interval=(currentDate.getTime()-lastLoginDate.getTime())/86400000;
-        						if(interval==0) {
-        								checkExsistFlag=userAcknowledgeService.checkExsisting(Context.getAuthUserId());	
-        							}
-        				log.debug("diffe between two dates:"+interval);
-       
-        				}
-      
+        	if(lastLoginDate!=null) {
+        		interval=(currentDate.getTime()-lastLoginDate.getTime())/86400000;
+        			if(interval==0) {
+        				checkExsistFlag=userAcknowledgeService.checkExsisting(Context.getAuthUserId());	
+        			}
+        	}      
         model.addAttribute("lastlogintime",interval);
         model.addAttribute("checkExsist",checkExsistFlag);
-        //end of US10060
-        
+        //end of US10060       
         model.addAttribute("extensions",
                 appFrameworkService.getExtensionsForCurrentUser(ReferenceApplicationConstants.HOME_PAGE_EXTENSION_POINT_ID, contextModel));
         model.addAttribute("authenticatedUser", Context.getAuthenticatedUser());
