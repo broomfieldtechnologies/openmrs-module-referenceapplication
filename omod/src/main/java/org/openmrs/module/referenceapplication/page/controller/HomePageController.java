@@ -12,10 +12,9 @@
  * Copyright (C) OpenMRS, LLC.  All Rights Reserved.
  */
 package org.openmrs.module.referenceapplication.page.controller;
+
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.ibm.icu.text.SimpleDateFormat;
-
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -36,6 +35,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;  
 import java.util.Date;
 import org.openmrs.api.impl.UserAcknowledgeServiceImpl;
+import org.openmrs.api.AdministrationService;
 import org.openmrs.api.UserAcknowledgeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.TimeZone;
@@ -49,7 +49,7 @@ import java.lang.Integer;
 public class HomePageController {
 	
 	protected final Log log = LogFactory.getLog(getClass());
-	
+	public static final int MILLISECONDS_TO_DAYS = 86400000;
 	UserAcknowledgeService userAcknowledgeService;
 	
 	@RequestMapping("/index.htm")
@@ -70,21 +70,25 @@ public class HomePageController {
         AppContextModel contextModel = sessionContext.generateAppContextModel();
        
         //US10060
-        
-        userAcknowledgeService=Context.getUserAcknowledgeService();
+        AdministrationService adminService;
+        userAcknowledgeService = Context.getUserAcknowledgeService();
         Date currentDate = new Date();
-        long interval=0;
-        Date lastLoginDate=null;
-        boolean checkExsistFlag=false;       
+        long interval = 0;
+        Date lastLoginDate = null;
+        boolean checkExsistFlag = false;  
+        adminService = Context.getAdministrationService();
+        String userAcknowledgeTime = adminService.getGlobalProperty("UserAcknowledgeTimeLimit");
+        int userAcknowledgeTimeLimit = Integer.parseInt(userAcknowledgeTime);
         lastLoginDate=userAcknowledgeService.checkLastLogin(Context.getAuthUserId());
-        	if(lastLoginDate!=null) {
-        		interval=(currentDate.getTime()-lastLoginDate.getTime())/86400000;
-        			if(interval==0) {
-        				checkExsistFlag=userAcknowledgeService.checkExsisting(Context.getAuthUserId());	
+        	if(lastLoginDate != null) {
+        		interval = (currentDate.getTime()-lastLoginDate.getTime())/MILLISECONDS_TO_DAYS;
+        			if(interval == 0) {
+        				checkExsistFlag = userAcknowledgeService.checkExsisting(Context.getAuthUserId());	
         			}
         	}      
         model.addAttribute("lastlogintime",interval);
         model.addAttribute("checkExsist",checkExsistFlag);
+        model.addAttribute("userAcknowledgeTimeLimit", userAcknowledgeTimeLimit);
         //end of US10060       
         model.addAttribute("extensions",
                 appFrameworkService.getExtensionsForCurrentUser(ReferenceApplicationConstants.HOME_PAGE_EXTENSION_POINT_ID, contextModel));

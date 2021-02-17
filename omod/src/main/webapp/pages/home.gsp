@@ -11,7 +11,7 @@
 <div id="home-container">
 
     ${ ui.includeFragment("coreapps", "administrativenotification/notifications") }
-        <% if ((lastlogintime>30)||(lastlogintime==0)){ %>
+        <% if ((lastlogintime>userAcknowledgeTimeLimit)||(lastlogintime==0)){ %>
             <% if (!checkExsist) { %>
                 ${ui.includeFragment("appui","acceptUser")}
             <% } %>
