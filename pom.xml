@@ -53,7 +53,7 @@
 		<emrapiVersion>1.29.0-SNAPSHOT</emrapiVersion>
 		<providermanagementVersion>2.5.0</providermanagementVersion>
 		<uiframeworkVersion>3.9</uiframeworkVersion>
-		<appuiVersion>1.7</appuiVersion>
+		<appuiVersion>1.12.0-SNAPSHOT</appuiVersion>
 		<atlasVersion>2.2</atlasVersion>
 		<eventVersion>2.5</eventVersion>
 		<registrationappVersion>1.6</registrationappVersion>
