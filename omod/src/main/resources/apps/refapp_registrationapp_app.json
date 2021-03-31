@@ -144,6 +144,463 @@
                     ]
                 },              
                 {
+                    "id": "vaccineInfo",
+                    "label": "registrationapp.patient.vaccineInfo.label",
+                    "questions": [
+                        {
+                            "legend": "registrationapp.patient.BCG.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.BCG.question",
+                                    "formFieldName": "BCG",
+                                    "uuid": "211ee5c0-a11c-499e-8fd0-77d71f3fa1da",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.HepB1.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.HepB1.question",
+                                    "formFieldName": "HepB1",
+                                    "uuid": "a4d1e2a0-e138-4d45-8945-3006c32f8c7c",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.OPV1.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.OPV1.question",
+                                    "formFieldName": "OPV1",
+                                    "uuid": "85226729-fcee-42b0-97dc-7af09963fe75",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.DPT1.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.DPT1.question",
+                                    "formFieldName": "DPT1",
+                                    "uuid": "b0e0cc06-e7e5-4b19-a9f7-64762070f0fb",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.OPV2.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.OPV2.question",
+                                    "formFieldName": "OPV2",
+                                    "uuid": "8fb12a06-dc06-4235-a9ab-24cb3fc35616",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.HepB2.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.HepB2.question",
+                                    "formFieldName": "HepB2",
+                                    "uuid": "edf91bd9-77a8-4ad4-8409-3604a44c399c",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.Hib1.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.Hib1.question",
+                                    "formFieldName": "Hib1",
+                                    "uuid": "b4b61e79-899c-421a-9605-2116c0019f42",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.DPT2.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.DPT2.question",
+                                    "formFieldName": "DPT2",
+                                    "uuid": "b719d443-493b-4c19-96ed-4308a14fcd9d",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.OPV3.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.OPV3.question",
+                                    "formFieldName": "OPV3",
+                                    "uuid": "09f70e41-916a-4561-9b97-f82e4591813d",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.Hib2.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.Hib2.question",
+                                    "formFieldName": "Hib2",
+                                    "uuid": "5c675f02-416d-4534-afac-bfaac876f498",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.DPT3.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.DPT3.question",
+                                    "formFieldName": "DPT3",
+                                    "uuid": "bef5c706-755d-4772-acb7-c78c0c19ef94",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.OPV4.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.OPV4.question",
+                                    "formFieldName": "OPV4",
+                                    "uuid": "afd7935b-d592-4e44-983b-56a61ceedfe0",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.Hib3.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.Hib3.question",
+                                    "formFieldName": "Hib3",
+                                    "uuid": "4ad85ae6-53b1-4d7c-88cb-9acb88aa3120",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.OPV5.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.OPV5.question",
+                                    "formFieldName": "OPV5",
+                                    "uuid": "07670af2-891e-4323-8d07-e7ebf23e59ee",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.HepB3.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.HepB3.question",
+                                    "formFieldName": "HepB3",
+                                    "uuid": "b0ba54cb-b96d-40e7-8b2a-1907396e7903",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.measles.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.measles.question",
+                                    "formFieldName": "measles",
+                                    "uuid": "1c1784cb-f126-43d6-b821-aaa6cacf7ace",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.MMR.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.MMR.question",
+                                    "formFieldName": "MMR",
+                                    "uuid": "c4b05da4-416e-4224-9dd7-a1e601abef2c",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.DPT1b.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.DPT1b.question",
+                                    "formFieldName": "DPT1b",
+                                    "uuid": "e5eab9d5-4fc0-4b8d-88ba-efa7347d4bb7",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.OPV6.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.OPV6.question",
+                                    "formFieldName": "OPV6",
+                                    "uuid": "aa9f06c2-bf53-44a4-a011-8abd5bf0ac29",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.DPT2b.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.DPT2b.question",
+                                    "formFieldName": "DPT2b",
+                                    "uuid": "a6b0a69e-8470-40b7-b543-4dcc445d11c0",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.OPV7.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.OPV7.question",
+                                    "formFieldName": "OPV7",
+                                    "uuid": "1473d39d-4164-4aae-82e0-5220fc497e4d",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.TT3b.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.TT3b.question",
+                                    "formFieldName": "TT3b",
+                                    "uuid": "21c00c13-204f-43d7-9616-4701d8654b41",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.TT4b.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.TT4b.question",
+                                    "formFieldName": "TT4b",
+                                    "uuid": "60781102-3d73-4644-b419-d9960cb413c7",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.typhoid.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.typhoid.question",
+                                    "formFieldName": "typhoid",
+                                    "uuid": "3b5438a7-a591-41bb-9b80-bffd3f01044a",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.chickenpox.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.chickenpox.question",
+                                    "formFieldName": "chickenpox",
+                                    "uuid": "b13ffb51-f632-4595-8e6d-317f33f33df0",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.HepA1.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.HepA1.question",
+                                    "formFieldName": "HepA1",
+                                    "uuid": "52322129-2f4c-4eff-be43-7e9ec0d7092d",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.HepA2.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.HepA2.question",
+                                    "formFieldName": "HepA2",
+                                    "uuid": "8100969f-c6d4-4382-86b8-8e62f613157f",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.covid191.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.covid191.question",
+                                    "formFieldName": "covid191",
+                                    "uuid": "87618e58-2370-46c6-af0c-49b1c874979d",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.covid192.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.covid192.question",
+                                    "formFieldName": "covid192",
+                                    "uuid": "ae14998c-0227-4019-9279-2fa4580a25cd",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "legend": "registrationapp.patient.covid19b.label",
+                            "fields": [
+                                {
+                                    "type": "personAttribute",
+                                    "label": "registrationapp.patient.covid19b.question",
+                                    "formFieldName": "covid19b",
+                                    "uuid": "945b4fe7-c78d-4e4d-a43b-2bed0df91fc4",
+                                    "widget": {
+                                        "providerName": "uicommons",
+                                        "fragmentId": "field/text"
+                                    }
+                                }
+                            ]
+                        }
+                     ]
+                },
+
+                {
                     "id": "relationships-info",
                     "label": "registrationapp.person.relationship",
                     "questions": [
